@@ -19,7 +19,7 @@ public class UserApiController {
 	@Autowired // DI(의존성 주)
 	private UserService userService;
 	
-	@PostMapping("/api/user")
+	@PostMapping("/auth/joinProc")
 	public ResponseDto<Integer> save(@RequestBody User user ) {
 		System.out.println("UserApiController : save 호출됨 !");
 		//자바오브젝트를 반환하면 Jackson은 이를 json으로 변환해서 리턴해준다. 따라서 js에서 이를 json 형식으로 읽을 수 있게 됨. 
@@ -29,15 +29,15 @@ public class UserApiController {
 	}
 	
 	//전통적인 로그인 방식 !! 
-	@PostMapping("/api/user/login")
-	public ResponseDto<Integer> login(@RequestBody User user , HttpSession session ) {
-		System.out.println("UserApiController : login 호출됨 !");
-		User principal = userService.로그인(user); // principal(접근주)
-		
-		if( principal != null) {
-			session.setAttribute("principal", principal); // 세션이 형성 
-		}
-		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//(200,1) // HttpStatus.OK 는 HttpStatus의 enum타입이다. // 200 == 정상반환 
-	}
+//	@PostMapping("/api/user/login")
+//	public ResponseDto<Integer> login(@RequestBody User user , HttpSession session ) {
+//		System.out.println("UserApiController : login 호출됨 !");
+//		User principal = userService.로그인(user); // principal(접근주)
+//		
+//		if( principal != null) {
+//			session.setAttribute("principal", principal); // 세션이 형성 
+//		}
+//		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//(200,1) // HttpStatus.OK 는 HttpStatus의 enum타입이다. // 200 == 정상반환 
+//	}
 	
 }

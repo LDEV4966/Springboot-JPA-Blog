@@ -4,10 +4,6 @@ pageEncoding="UTF-8"%><!-- 한글 깨짐 방지 -->
 <%@ include file="layout/header.jsp" %>
 <div class="container">
   <h2>Stretched Link in Card</h2>
-  <p>
-    Add the .stretched-link class to a link inside the card, and it will make
-    the whole card clickable (the card will act as a link):
-  </p>
   <div class="card m-3">
     <div class="card-body">
       <h4 class="card-title">제목 적는 부분</h4>
