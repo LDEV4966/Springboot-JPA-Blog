@@ -1,11 +1,14 @@
 package com.lsm.blog.config;
 
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 //빈 등록을 해야함 : IOC를 가능학게 하는 것.
@@ -15,14 +18,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true) // 특정주소로 접근을 하면 권한 및 인증을 미리 체크하겠다느 뜻.
 public class SecurityConfig  extends WebSecurityConfigurerAdapter{
 	
+	@Bean // IOC화 시키기 
+	public BCryptPasswordEncoder encodePWD() {
+		return new BCryptPasswordEncoder();
+	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//Request가 요청되면 "/auth/**"로 들어 오는 도메인은 항상 허용하고 나머지는 다 인증을 거쳐야 한다는 뜻.
 		System.out.println("동작 인지 시큐리티 컨픽");
 		http
+			.csrf().disable() // csrf 토큰 비활성화 (ㅌ테스트시 걸어두는것이 좋음 )
 			.authorizeRequests()
-			.antMatchers("/auth/**")
+			.antMatchers("/","/auth/**","/js/**","/css/**","/image/**")
 			.permitAll()
 			.anyRequest()
 			.authenticated()

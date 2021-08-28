@@ -3,11 +3,15 @@ package com.lsm.blog.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lsm.blog.model.RoleType;
 import com.lsm.blog.model.User;
 import com.lsm.blog.repository.UserRepository;
+
+import ch.qos.logback.core.encoder.Encoder;
 
 @Service//스프링이 컴포넌트를 통해서 Bean에 등록해줌. IoC를 해준다.
 //서비스가 필요한 이유는 ? -> 1. 트랜잭션 관리를 위해 , 2. 서비스 의미 때문.
@@ -28,9 +32,17 @@ public class UserService {
 	이 프록시 객체는 @Transactional이 포함된 메소드가 호출 될 경우, 
 	PlatformTransactionManager를 사용하여 트랜잭션을 시작하고, 정상 여부에 따라 Commit 또는 Rollback 한다.
  */
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	@Transactional // insert 할때 트랜잭션 시작, 서비스 종료시 트랜잭션 종료 (정합성 유지 )
 	public void 회원가입(User user) {
-			userRepository.save(user);
+		
+		String rawPassword = user.getPassword();
+		String encPassword = encoder.encode(rawPassword);
+		user.setPassword(encPassword);
+		user.setRole(RoleType.USER);
+		userRepository.save(user);
 	}
 	//전통적인 로그인 방식  
 //	@Transactional(readOnly = true ) // select 할때 트랜잭션 시작, 서비스 종료시 트랜잭션 종료 (정합성 유지 )
