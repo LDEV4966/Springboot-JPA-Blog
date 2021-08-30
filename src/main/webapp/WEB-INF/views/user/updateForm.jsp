@@ -3,7 +3,8 @@ pageEncoding="UTF-8"%><!-- 한글 깨짐 방지 -->
 
 <%@ include file="../layout/header.jsp" %>
 <div class="container">
-  <form action="/auth/loginProc" method="post">
+  <form>
+    <input type="hidden" id="id" value="${principal.user.id}"/>
     <div class="form-group">
       <label for="email">Username</label>
       <input
@@ -11,10 +12,10 @@ pageEncoding="UTF-8"%><!-- 한글 깨짐 방지 -->
         class="form-control"
         placeholder="Enter Username"
         id="username"
-        name="username"
+        readonly
+        value="${principal.user.username}"
       />
     </div>
-
     <div class="form-group">
       <label for="password">Password</label>
       <input
@@ -22,16 +23,20 @@ pageEncoding="UTF-8"%><!-- 한글 깨짐 방지 -->
         class="form-control"
         placeholder="Enter password"
         id="password"
-        name="password"
       />
     </div>
-
-    <button id="btn-login" class="btn btn-primary">로그인</button>
-    <a
-      href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=8938f98bcb5d5c357fb2e656163e237c&redirect_uri=http://localhost:8000/auth/kakao/callback"
-      ><img height="38" src="/image/kakao_login_btn.png"
-    /></a>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Enter email"
+        id="email"
+        value="${principal.user.email}"
+      />
+    </div>
   </form>
+  <button id="btn-update" class="btn btn-primary">수정완료</button>
 </div>
-<!-- <script src="/js/user.js"></script> -->
+<script src="/js/user.js"></script>
 <%@ include file="../layout/footer.jsp" %>
