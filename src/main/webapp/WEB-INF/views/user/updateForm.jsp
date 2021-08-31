@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%><!-- 한글 깨짐 방지 -->
 <%@ include file="../layout/header.jsp" %>
 <div class="container">
   <form>
-    <input type="hidden" id="id" value="${principal.user.id}"/>
+    <input type="hidden" id="id" value="${principal.user.id}" />
     <div class="form-group">
       <label for="email">Username</label>
       <input
@@ -16,15 +16,17 @@ pageEncoding="UTF-8"%><!-- 한글 깨짐 방지 -->
         value="${principal.user.username}"
       />
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        placeholder="Enter password"
-        id="password"
-      />
-    </div>
+    <c:if test="${empty principal.user.oauth}">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Enter password"
+          id="password"
+        />
+      </div>
+    </c:if>
     <div class="form-group">
       <label for="email">Email</label>
       <input
@@ -33,6 +35,7 @@ pageEncoding="UTF-8"%><!-- 한글 깨짐 방지 -->
         placeholder="Enter email"
         id="email"
         value="${principal.user.email}"
+        readonly
       />
     </div>
   </form>

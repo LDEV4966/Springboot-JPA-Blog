@@ -33,7 +33,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 프로젝트에서 연결된 DB(MySql의 auto_increment) 넘버링 전략을 따라간다.
 	private int id; // auto_increment
 	
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 100, unique = true)
 	private String username;
 	
 	@Column(nullable = false, length = 100) //비밀번호를 해쉬하여 암호화하여 넣기때문에 길이가 넉넉해야 함.
@@ -46,6 +46,8 @@ public class User {
 	//DB는RoleType 이라는게 없다 따라서 아래의 어노테이션을 통해 해당 타입이 스트링임을 알려주어야한다.
 	@Enumerated(EnumType.STRING)
 	private RoleType role;  //Enum을 쓰는게 좋다 -> 도메인(어떤범위를 설정하는 것을 말함, 예를 들어 성별이면 남자,여자 )을 쓰기 위해 // admin,user,manager ..
+	
+	private String oauth; // kakao,login
 	
 	@CreationTimestamp //시간이 자동 입력 
 	private Timestamp createDate;
