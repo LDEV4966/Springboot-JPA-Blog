@@ -48,10 +48,10 @@ pageEncoding="UTF-8"%> <%@ include file="../layout/header.jsp" %>
     <br />
     <div class="card">
       <div class="card-header">댓글 리스트</div>
-      <ul id="reply--box" class="list-group">
+      <ul id="reply-box" class="list-group">
         <c:forEach var="reply" items="${board.replys}">
           <li
-            id="reply--1"
+            id="reply-${reply.id}"
             class="list-group-item d-flex justify-content-between"
           >
             <div>${reply.content}</div>
@@ -59,7 +59,15 @@ pageEncoding="UTF-8"%> <%@ include file="../layout/header.jsp" %>
               <div class="font-italic">
                 작성자 : ${reply.user.username} &nbsp;
               </div>
-              <button class="badge">삭제</button>
+              <c:if test="${reply.user.id==principal.user.id}">
+                <!-- <a href="/board/${board.id}/updateForm" class="btn btn-warning">수정</a> -->
+                <button
+                  onClick="index.replyDelete(${board.id},${reply.id})"
+                  class="badge"
+                >
+                  삭제
+                </button>
+              </c:if>
             </div>
           </li>
         </c:forEach>

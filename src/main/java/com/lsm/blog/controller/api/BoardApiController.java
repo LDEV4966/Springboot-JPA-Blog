@@ -62,5 +62,12 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//(200,1) // HttpStatus.OK 는 HttpStatus의 enum타입이다. // 200 == 정상반환 
 	}
 	
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> replyDelete(@PathVariable int replyId ) {// 보드 아이디, 댓글 컨텐트, 누가적었는지 를 위한 파라미터 
+		System.out.println("BoardApiController : replyDelete 호출됨 !");
+		boardService.댓글삭제(replyId);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//(200,1) // HttpStatus.OK 는 HttpStatus의 enum타입이다. // 200 == 정상반환 
+	}
+	
 	
 }

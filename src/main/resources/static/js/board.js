@@ -81,15 +81,11 @@ let index = {
       });
   },
   replySave: function () {
-    //lert("asd");
     let data = {
       userId: $("#userId").val(),
       boardId: $("#boardId").val(),
       content: $("#reply-content").val(),
     };
-
-    console.log(data.content, data.boardId, data.userId);
-
     $.ajax({
       //회원가입 수행 요청
       type: "POST",
@@ -100,11 +96,30 @@ let index = {
     })
       .done(function (res) {
         //성공시
+        let url_parse = getURLParams(location.search);
+        let page = url_parse["page"];
         alert("댓글작성이 완료되었습니다.");
-        location.href = `/board/${data.boardId}`;
+        location.href = `/board/${data.boardId}` + "?page=" + page;
       })
       .fail(function (error) {
         //실패시
+        alert(JSON.stringify(error));
+      });
+  },
+  replyDelete: function (boardId, replyId) {
+    $.ajax({
+      type: "DELETE",
+      url: `/api/board/${boardId}/reply/${replyId}`,
+      dataType: "json", // 요청을 서버로 해서 응답이 왔을 때,  dataType이 json이라면, javascript object로 변경해준다.
+    })
+      .done(function (res) {
+        //성공시
+        let url_parse = getURLParams(location.search);
+        let page = url_parse["page"];
+        alert("댓글삭제가 완료되었습니다.");
+        location.href = `/board/${boardId}` + "?page=" + page;
+      })
+      .fail(function (error) {
         alert(JSON.stringify(error));
       });
   },

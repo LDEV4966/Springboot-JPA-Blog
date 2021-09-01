@@ -93,4 +93,8 @@ public class BoardService {
 //		System.out.println("댓글쓰기 customizedSave 결과 : " + customizedSaveRes); // JDBC는 쿼리에 대한 결과 값으로 바뀐 행의 수를 출력한다. 
 		
 	}
+	@Transactional 
+	public void 댓글삭제(int replyId) {
+		replyRepository.deleteById(replyId);
+	}
 }
