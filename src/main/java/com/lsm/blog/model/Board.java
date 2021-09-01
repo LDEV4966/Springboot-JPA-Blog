@@ -3,6 +3,7 @@ package com.lsm.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -50,8 +52,10 @@ public class Board {
 	private User user; //글을 작성한 유저를 기록하는 것.
 	//객체는 DB에저장 되지 못한다. 그래서 FK로 DB에  저장한다. 하지만 자바는 이를 저장할 수 있다. 그런데 JPA로 ORM과정을 거칠때 어떻게 하느냐? 일때 위의 @JoinColumn으로  필드값을 형성해준다,
 	
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER ) // mappedBy는 해당 값이 연관관계의 주인이 아니다 즉, 난 FK가 아니에요 ) 라는 의미이며 DB에도 저장되지 않는다. , Reply클래스의 필드에서 변수명이 "board"라는 것을 가져온다.
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER ,cascade = CascadeType.REMOVE) // mappedBy는 해당 값이 연관관계의 주인이 아니다 즉, 난 FK가 아니에요 ) 라는 의미이며 DB에도 저장되지 않는다. , Reply클래스의 필드에서 변수명이 "board"라는 것을 가져온다.
+	// cascade는 Board의  연관관계의 주인이 아닌 Reply를 어떻게 다룰지 에 대한 옵션 값이다. CascadeType.REMOVE는 Board삭제시 함께 삭제 됨을 의미한다. 
 	@JsonIgnoreProperties({"board"}) //Board에서 Reply를 참조할때 Reply 내부 의 board값은 참조하지 않아, 무 한 참조를 방지할 수 있다.
+	@OrderBy("id desc") //id를 기준으로 내림차순 정렬 로 가지고 옴 
 	private List<Reply> replys; //하나의board에 여러개의 답글이 달릴 수 있기에 List 자료형 사용. 즉 이 값이 DB에 FK로 저장 될 수 없는 이유이다. DB의 각 colum값은 제1 정규형에 의해 원자성을 가져야 하는데 이는 답글이 추가 될때 마다 변경 되기에 DB에 저장하지 못한다.그래서 mappedBy를 사용한다.
 	
 	@CreationTimestamp

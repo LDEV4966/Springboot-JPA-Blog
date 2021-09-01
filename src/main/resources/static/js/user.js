@@ -30,8 +30,12 @@ let index = {
     })
       .done(function (res) {
         //성공시
-        alert("회원가입이 완료되었습니다.");
-        location.href = "/";
+        if (res.status === 200) {
+          alert("회원가입이 완료되었습니다.");
+          location.href = "/";
+        } else {
+          alert("회원가입에 실패하였습니다.");
+        }
       })
       .fail(function (error) {
         //실패시

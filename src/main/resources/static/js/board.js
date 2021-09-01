@@ -9,6 +9,9 @@ let index = {
     $("#btn-update").on("click", () => {
       this.update();
     });
+    $("#btn-reply-save").on("click", () => {
+      this.replySave();
+    });
   },
 
   save: function () {
@@ -71,6 +74,34 @@ let index = {
         //성공시
         alert("삭제 완료되었습니다.");
         location.href = "/";
+      })
+      .fail(function (error) {
+        //실패시
+        alert(JSON.stringify(error));
+      });
+  },
+  replySave: function () {
+    //lert("asd");
+    let data = {
+      userId: $("#userId").val(),
+      boardId: $("#boardId").val(),
+      content: $("#reply-content").val(),
+    };
+
+    console.log(data.content, data.boardId, data.userId);
+
+    $.ajax({
+      //회원가입 수행 요청
+      type: "POST",
+      url: `/api/board/${data.boardId}/reply`,
+      data: JSON.stringify(data), //http bdoy 데이터
+      contentType: "application/json; charset=utf-8", // body 데이터가 어떤 타입인지 (MIME)
+      dataType: "json", // 요청을 서버로 해서 응답이 왔을 때,  dataType이 json이라면, javascript object로 변경해준다.
+    })
+      .done(function (res) {
+        //성공시
+        alert("댓글작성이 완료되었습니다.");
+        location.href = `/board/${data.boardId}`;
       })
       .fail(function (error) {
         //실패시
